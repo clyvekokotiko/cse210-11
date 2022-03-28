@@ -1,28 +1,35 @@
-import pygame
-from pygame.locals import *
 # -------------------------------------------------------------------------------------------------- 
 # GENERAL GAME CONSTANTS
 # -------------------------------------------------------------------------------------------------- 
 
 # GAME
-GAME_NAME = "Tetris"
+GAME_NAME = "Tetromino"
+
+# DIALOG
+PRESS_KEY_TO_START = "PRESS A KEY TO START"
+PREP_TO_LAUNCH = "PREPARING TO LAUNCH"
+MSG_HOW_TO_PAUSED_GAME = "Press p to pause game"
+GAME_PAUSED = "PAUSED"
+PRESS_KEY_TO_CONTINUE = "PRESS A KEY TO CONTINUE"
+WAS_GOOD_GAME = "GAME OVER"
+
 FPS = 25 # FRAME RATE
 
 # SCREEN
-WINDOWWIDTH = 640
-WINDOWHEIGHT = 480
-BOXSIZE = 20
-BOARDWIDTH = 10
-BOARDHEIGHT = 20
+WINDOW_WIDTH = 640
+WINDOW_HEIGHT = 480
+BOX_SIZE = 20
+BOARD_WIDTH = 10
+BOARD_HEIGHT = 20
 BLANK = '.'
 
 # FRAME RATE MOVEMENT - HOLDING DOWN KEYS
-MOVESIDEWAYSFREQ = 0.15
-MOVEDOWNFREQ = 0.1
+MOVE_SIDE_WAYS_FREQ = 0.15
+MOVE_DOWN_FREQ = 0.1
 
 # PADDING LEFT, RIGHT, and TOP
-XMARGIN = int((WINDOWWIDTH - BOARDWIDTH * BOXSIZE) / 2)
-TOPMARGIN = WINDOWHEIGHT - (BOARDHEIGHT * BOXSIZE) - 5
+MARGIN_WIDTH = int((WINDOW_WIDTH - BOARD_WIDTH * BOX_SIZE) / 2)
+TOP_MARGIN = WINDOW_HEIGHT - (BOARD_HEIGHT * BOX_SIZE) - 5
 
 # COLORS        R    G    B
 WHITE       = (255, 255, 255)
@@ -38,17 +45,17 @@ YELLOW      = (155, 155,   0)
 LIGHTYELLOW = (175, 175,  20)
 
 # BOARD GAME COLORS
-BORDERCOLOR = BLUE
-BGCOLOR = BLACK
-TEXTCOLOR = WHITE
-TEXTSHADOWCOLOR = GRAY
+BORDER_COLOR = BLUE
+BACK_GROUND_COLOR = BLACK
+TEXT_COLOR = WHITE
+TEXT_SHADOW_COLOR = GRAY
 COLORS      = (     BLUE,      GREEN,      RED,      YELLOW)
 LIGHTCOLORS = (LIGHTBLUE, LIGHTGREEN, LIGHTRED, LIGHTYELLOW)
 assert len(COLORS) == len(LIGHTCOLORS) # each color must have light color
 
 
-# ********* FONT *********
-FONT_FILE = "tetris/assets/fonts/freesansbold.ttf"
+# FONT
+FONT_FILE = "freesansbold.ttf"
 FONT_SMALL = 18
 FONT_LARGE = 100
 
@@ -73,7 +80,7 @@ NEW_GAME = 0
 TRY_AGAIN = 1
 NEXT_LEVEL = 2
 IN_PLAY = 3
-GAME_OVER = 4
+GAME_OVER_SCENE = 4
 
 # ********* LEVELS *********
 BASE_LEVELS = 5
@@ -111,12 +118,12 @@ LEVEL_FORMAT = "LEVEL: {}"
 LIVES_FORMAT = "LIVES: {}"
 SCORE_FORMAT = "SCORE: {}"
 
-# Tetris SIZE
-TEMPLATEWIDTH = 5
-TEMPLATEHEIGHT = 5
+# TETROMINO SIZE
+TEMPLATE_WIDTH = 5
+TEMPLATE_HEIGHT = 5
 
-# Tetris - GEOMETRIC SHAPES
-S_SHAPE_TEMPLATE = [['.....',
+# TETROMINO - GEOMETRIC SHAPES (composed of four squares, connected orthogonally.)
+S_SHAPE_TETROMINO = [['.....',
                      '.....',
                      '..OO.',
                      '.OO..',
@@ -128,7 +135,7 @@ S_SHAPE_TEMPLATE = [['.....',
                      '.....']]
 
 
-Z_SHAPE_TEMPLATE = [['.....',
+Z_SHAPE_TETROMINO = [['.....',
                      '.....',
                      '.OO..',
                      '..OO.',
@@ -140,7 +147,7 @@ Z_SHAPE_TEMPLATE = [['.....',
                      '.....']]
 
 
-I_SHAPE_TEMPLATE = [['..O..',
+I_SHAPE_TETROMINO = [['..O..',
                      '..O..',
                      '..O..',
                      '..O..',
@@ -152,14 +159,14 @@ I_SHAPE_TEMPLATE = [['..O..',
                      '.....']]
 
 
-O_SHAPE_TEMPLATE = [['.....',
+O_SHAPE_TETROMINO = [['.....',
                      '.....',
                      '.OO..',
                      '.OO..',
                      '.....']]
 
 
-J_SHAPE_TEMPLATE = [['.....',
+J_SHAPE_TETROMINO = [['.....',
                      '.O...',
                      '.OOO.',
                      '.....',
@@ -181,7 +188,7 @@ J_SHAPE_TEMPLATE = [['.....',
                      '.....']]
 
 
-L_SHAPE_TEMPLATE = [['.....',
+L_SHAPE_TETROMINO = [['.....',
                      '...O.',
                      '.OOO.',
                      '.....',
@@ -203,7 +210,7 @@ L_SHAPE_TEMPLATE = [['.....',
                      '.....']]
 
 
-T_SHAPE_TEMPLATE = [['.....',
+T_SHAPE_TETROMINO = [['.....',
                      '..O..',
                      '.OOO.',
                      '.....',
@@ -225,28 +232,10 @@ T_SHAPE_TEMPLATE = [['.....',
                      '.....']]
 
 
-SHAPES = {'S': S_SHAPE_TEMPLATE, 
-          'Z': Z_SHAPE_TEMPLATE,
-          'J': J_SHAPE_TEMPLATE,
-          'L': L_SHAPE_TEMPLATE,
-          'I': I_SHAPE_TEMPLATE,
-          'O': O_SHAPE_TEMPLATE,
-          'T': T_SHAPE_TEMPLATE}
-
-
-# ********* DIALOG *********
-DIALOG_GROUP = "dialogs"
-ENTER_TO_START = "PRESS ENTER TO START"
-PREP_TO_LAUNCH = "PREPARING TO LAUNCH"
-WAS_GOOD_GAME = "GAME OVER"
-
-
-
-pygame.font.init()
-font = pygame.font
-pygame.font.SysFont("freesansbold.ttf", 18)
-
-FPSCLOCK = pygame.time.Clock()
-DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
-BASICFONT = pygame.font.Font('freesansbold.ttf', 18)
-BIGFONT = pygame.font.Font('freesansbold.ttf', 100)
+SHAPES = {'S': S_SHAPE_TETROMINO, 
+          'Z': Z_SHAPE_TETROMINO,
+          'J': J_SHAPE_TETROMINO,
+          'L': L_SHAPE_TETROMINO,
+          'I': I_SHAPE_TETROMINO,
+          'O': O_SHAPE_TETROMINO,
+          'T': T_SHAPE_TETROMINO}
