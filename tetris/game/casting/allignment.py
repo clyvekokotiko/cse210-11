@@ -6,13 +6,13 @@ class Allignment:
     Description Comming Soon!
     """
     
-    def __init__():
+    def __init__(self):
         """
         Description Comming Soon! 
         """
         pass
 
-    def isCompleteLine(board, y):
+    def isCompleteLine(self, board, y):
     # Return True if the line filled with boxes with no gaps.
         for x in range(BOARDWIDTH):
             if board[x][y] == BLANK:
@@ -20,13 +20,13 @@ class Allignment:
         return True
 
 
-    def removeCompleteLines(board):
+    def removeCompleteLines(self, board):
         # Remove any completed lines on the board, move everything above them down, and return the number of complete lines.
         numLinesRemoved = 0
         y = BOARDHEIGHT - 1 # start y at the bottom of the board
         
         while y >= 0:
-            if isCompleteLine(board, y):
+            if self.isCompleteLine(board, y):
                 # Remove the line and pull boxes down by one line.
                 for pullDownY in range(y, 0, -1):
                     for x in range(BOARDWIDTH):
@@ -49,18 +49,18 @@ class Allignment:
         # coordinates of the location on the screen.
         return (XMARGIN + (boxx * BOXSIZE)), (TOPMARGIN + (boxy * BOXSIZE))
 
-    def isValidPosition(board, piece, adjX=0, adjY=0):
+    def isValidPosition(self, board, piece, adjX=0, adjY=0):
         # Return True if the piece is within the board and not colliding
         for x in range(TEMPLATEWIDTH):
             for y in range(TEMPLATEHEIGHT):
                 isAboveBoard = y + piece['y'] + adjY < 0
                 if isAboveBoard or SHAPES[piece['shape']][piece['rotation']][y][x] == BLANK:
                     continue
-                if not isOnBoard(x + piece['x'] + adjX, y + piece['y'] + adjY):
+                if not self.isOnBoard(x + piece['x'] + adjX, y + piece['y'] + adjY):
                     return False
                 if board[x + piece['x'] + adjX][y + piece['y'] + adjY] != BLANK:
                     return False
         return True
     
-    def isOnBoard(x, y):
+    def isOnBoard(self, x, y):
         return x >= 0 and x < BOARDWIDTH and y < BOARDHEIGHT

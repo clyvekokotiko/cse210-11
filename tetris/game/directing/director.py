@@ -1,6 +1,7 @@
 import random, time, pygame, sys
 from pygame.locals import *
 from constants import *
+#from game.casting.allignment import self
 from game.casting.allignment import Allignment
 from game.casting.text import Text
 from game.scripting.draw import Draw
@@ -16,7 +17,10 @@ class Director:
         Args:
             video_service (VideoService): An instance of VideoService.
         """
-        pass
+        self._draw = Draw()
+        self._board = Draw.getBlankBoard(self)
+        self._allignment = Allignment()
+        
         
     def start_game(self):
         global FPSCLOCK, DISPLAYSURF, BASICFONT, BIGFONT
@@ -37,7 +41,6 @@ class Director:
     
     def runGame(self):
         # setup variables for the start of the game
-        board = Draw.getBlankBoard()
         lastMoveDownTime = time.time()
         lastMoveSidewaysTime = time.time()
         lastFallTime = time.time()
@@ -47,18 +50,18 @@ class Director:
         score = 0
         level, fallFreq = Score.calculateLevelAndFallFreq(score)
         
-        fallingPiece = Draw.getNewPiece()
-        nextPiece = Draw.getNewPiece()
+        fallingPiece = self._draw.getNewPiece()
+        nextPiece = self._draw.getNewPiece()
         
         while True: # main game loop
             if fallingPiece == None:
                 # No falling piece in play, so start a new piece at the top
                 fallingPiece = nextPiece
-                nextPiece = Draw.getNewPiece()
+                nextPiece = self._draw.getNewPiece()
                 lastFallTime = time.time() # reset lastFallTime
                 
-                if not Allignment.Allignment.isValidPosition(board, fallingPiece):
-                    return # can't fit a new piece on the board, so game over
+                if not self._allignment.isValidPosition(self._board, fallingPiece):
+                    return # can't fit a new piece on the self._board, so game over
             
             self.checkForQuit()
             for event in pygame.event.get(): # event handling loop
@@ -80,12 +83,12 @@ class Director:
                         movingDown = False
                 elif event.type == KEYDOWN:
                     # moving the block sideways
-                    if (event.key == K_LEFT or event.key == K_a) and Allignment.isValidPosition(board, fallingPiece, adjX=-1):
+                    if (event.key == K_LEFT or event.key == K_a) and self._allignment.isValidPosition(self._board, fallingPiece, adjX=-1):
                         fallingPiece['x'] -= 1
                         movingLeft = True
                         movingRight = False
                         lastMoveSidewaysTime = time.time()
-                    elif (event.key == K_RIGHT or event.key == K_d) and Allignment.isValidPosition(board, fallingPiece, adjX=1):
+                    elif (event.key == K_RIGHT or event.key == K_d) and self._allignment.isValidPosition(self._board, fallingPiece, adjX=1):
                         fallingPiece['x'] += 1
                         movingRight = True
                         movingLeft = False
@@ -94,18 +97,18 @@ class Director:
                     # rotating the block (if there is room to rotate)
                     elif (event.key == K_UP or event.key == K_w):
                         fallingPiece['rotation'] = (fallingPiece['rotation'] + 1) % len(SHAPES[fallingPiece['shape']])
-                        if not Allignment.isValidPosition(board, fallingPiece):
+                        if not self._allignment.isValidPosition(self._board, fallingPiece):
                             fallingPiece['rotation'] = (fallingPiece['rotation'] - 1) % len(SHAPES[fallingPiece['shape']])
                     elif (event.key == K_q): # rotate the other direction
                         fallingPiece['rotation'] = (fallingPiece['rotation'] - 1) % len(SHAPES[fallingPiece['shape']])
-                        if not Allignment.isValidPosition(board, fallingPiece):
+                        if not self._allignment.isValidPosition(self._board, fallingPiece):
                             fallingPiece['rotation'] = (fallingPiece['rotation'] + 1) % len(SHAPES[fallingPiece['shape']])
                     
                     # making the block fall faster with the down key
                     elif (event.key == K_DOWN or event.key == K_s):
                         movingDown = True
                         
-                        if Allignment.isValidPosition(board, fallingPiece, adjY=1):
+                        if self._allignment.isValidPosition(self._board, fallingPiece, adjY=1):
                             fallingPiece['y'] += 1
                         lastMoveDownTime = time.time()
                     
@@ -114,49 +117,48 @@ class Director:
                         movingDown = False
                         movingLeft = False
                         movingRight = False
-                        for i in range(1, BOARDHEIGHT):
-                            if not Allignment.isValidPosition(board, fallingPiece, adjY=i):
+                        for i in range(1, self._BOARDHEIGHT):
+                            if not self._allignment.isValidPosition(self._board, fallingPiece, adjY=i):
                                 break
                         fallingPiece['y'] += i - 1
             
             # handle moving the block because of user input
             if (movingLeft or movingRight) and time.time() - lastMoveSidewaysTime > MOVESIDEWAYSFREQ:
-                if movingLeft and Allignment.isValidPosition(board, fallingPiece, adjX=-1):
+                if movingLeft and self._allignment.isValidPosition(self._board, fallingPiece, adjX=-1):
                     fallingPiece['x'] -= 1
-                elif movingRight and Allignment.isValidPosition(board, fallingPiece, adjX=1):
+                elif movingRight and self._allignment.isValidPosition(self._board, fallingPiece, adjX=1):
                     fallingPiece['x'] += 1
                 lastMoveSidewaysTime = time.time()
             
-            if movingDown and time.time() - lastMoveDownTime > MOVEDOWNFREQ and Allignment.isValidPosition(board, fallingPiece, adjY=1):
+            if movingDown and time.time() - lastMoveDownTime > MOVEDOWNFREQ and self._allignment.isValidPosition(self._board, fallingPiece, adjY=1):
                 fallingPiece['y'] += 1
                 lastMoveDownTime = time.time()
             
             # let the piece fall if it is time to fall
-            level = 1
-            score = 0
+            
+            
             if time.time() - lastFallTime > fallFreq:
                 # see if the piece has landed
-                if not Allignment.isValidPosition(board, fallingPiece, adjY=1):
-                    # falling piece has landed, set it on the board
-                    Draw.addToBoard(board, fallingPiece)
-                    score += Allignment.removeCompleteLines(board)
-                    level = Score.calculateLevelAndFallFreq(score)
-                    fallFreq = Score.calculateLevelAndFallFreq(score)
-
+                if not self._allignment.isValidPosition(self._board, fallingPiece, adjY=1):
+                    # falling piece has landed, set it on the self._board
+                    self._draw.addToBoard(self._board, fallingPiece)
+                    score += self._allignment.removeCompleteLines(self._board)
+                    level, fallFreq = Score.calculateLevelAndFallFreq(score)
+                    
                     fallingPiece = None
                 else:
                     # piece did not land, just move the block down
                     fallingPiece['y'] += 1
                     lastFallTime = time.time()
             
-            # drawing everything on the screen
+            # drawing everything on the screen 
             DISPLAYSURF.fill(BGCOLOR)
-            Draw.drawBoard(self,board)
-            Draw.drawStatus(score, level)
-            Draw.drawNextPiece(nextPiece)
+            self._draw.drawBoard(self._board)
+            self._draw.drawStatus(score, level)
+            self._draw.drawNextPiece(nextPiece)
             
             if fallingPiece != None:
-                Draw.drawPiece(fallingPiece)
+                self._draw.drawPiece(fallingPiece)
             
             pygame.display.update()
             FPSCLOCK.tick(FPS)

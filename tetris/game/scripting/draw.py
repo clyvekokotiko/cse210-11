@@ -1,4 +1,4 @@
-import pygame, random 
+import pygame, random
 from pygame.locals import *
 from constants import *
 
@@ -9,7 +9,7 @@ class Draw:
     """
     """
     def __init__(self):
-        DISPLAYSURF = DISPLAYSURF 
+        pass 
 
     def convertToPixelCoords(boxx, boxy):
         # Convert the given xy coordinates of the board to xy
@@ -17,7 +17,7 @@ class Draw:
         return (XMARGIN + (boxx * BOXSIZE)), (TOPMARGIN + (boxy * BOXSIZE))
 
 
-    def drawBox(self,boxx, boxy, color = BLANK, pixelx=None, pixely=None):
+    def drawBox(self,boxx, boxy, color, pixelx=None, pixely=None):
         # draw a single box (each tetris piece has four boxes)
         # at xy coordinates on the board. Or, if pixelx & pixely
         # are specified, draw to the pixel coordinates stored in
@@ -40,10 +40,10 @@ class Draw:
         # draw the individual boxes on the board
         for x in range(BOARDWIDTH):
             for y in range(BOARDHEIGHT):
-                Draw.drawBox(x, y, board[x][y])
+                self.drawBox(x, y, board[x][y])
 
 
-    def drawStatus(self, score, level):
+    def drawStatus(self, score, level = 1):
         # draw the score text
         scoreSurf = BASICFONT.render('Score: %s' % score, True, TEXTCOLOR)
         scoreRect = scoreSurf.get_rect()
@@ -57,7 +57,7 @@ class Draw:
         DISPLAYSURF.blit(levelSurf, levelRect)
 
 
-    def drawPiece(piece, pixelx=None, pixely=None):
+    def drawPiece(self, piece, pixelx=None, pixely=None):
         shapeToDraw = SHAPES[piece['shape']][piece['rotation']]
         
         if pixelx == None and pixely == None:
@@ -68,7 +68,7 @@ class Draw:
         for x in range(TEMPLATEWIDTH):
             for y in range(TEMPLATEHEIGHT):
                 if shapeToDraw[y][x] != BLANK:
-                    Draw.drawBox(None, None, piece['color'], pixelx + (x * BOXSIZE), pixely + (y * BOXSIZE))
+                    self.drawBox(None, None, piece['color'], pixelx + (x * BOXSIZE), pixely + (y * BOXSIZE))
 
 
     def drawNextPiece(self, piece):
@@ -78,9 +78,9 @@ class Draw:
         nextRect.topleft = (WINDOWWIDTH - 120, 80)
         DISPLAYSURF.blit(nextSurf, nextRect)
         # draw the "next" piece
-        Draw.drawPiece(piece, pixelx=WINDOWWIDTH-120, pixely=100)
+        self.drawPiece(piece, pixelx=WINDOWWIDTH-120, pixely=100)
     
-    def getNewPiece():
+    def getNewPiece(self):
         # return a random new piece in a random rotation and color
         shape = random.choice(list(SHAPES.keys()))
         newPiece = {'shape': shape, 
@@ -90,14 +90,14 @@ class Draw:
                     'color': random.randint(0, len(COLORS)-1)}
         return newPiece
     
-    def addToBoard(board, piece):
+    def addToBoard(self, board, piece):
         # fill in the board based on piece's location, shape, and rotation
         for x in range(TEMPLATEWIDTH):
             for y in range(TEMPLATEHEIGHT):
                 if SHAPES[piece['shape']][piece['rotation']][y][x] != BLANK:
                     board[x + piece['x']][y + piece['y']] = piece['color']
     
-    def getBlankBoard():
+    def getBlankBoard(self):
         # create and return a new blank board data structure
         board = []
         for i in range(BOARDWIDTH):
