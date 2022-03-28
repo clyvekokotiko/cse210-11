@@ -1,9 +1,11 @@
+import pygame
+from pygame.locals import *
 # -------------------------------------------------------------------------------------------------- 
 # GENERAL GAME CONSTANTS
 # -------------------------------------------------------------------------------------------------- 
 
 # GAME
-GAME_NAME = "Tetromino"
+GAME_NAME = "Tetris"
 FPS = 25 # FRAME RATE
 
 # SCREEN
@@ -109,11 +111,11 @@ LEVEL_FORMAT = "LEVEL: {}"
 LIVES_FORMAT = "LIVES: {}"
 SCORE_FORMAT = "SCORE: {}"
 
-# TETROMINO SIZE
+# Tetris SIZE
 TEMPLATEWIDTH = 5
 TEMPLATEHEIGHT = 5
 
-# TETROMINO - GEOMETRIC SHAPES
+# Tetris - GEOMETRIC SHAPES
 S_SHAPE_TEMPLATE = [['.....',
                      '.....',
                      '..OO.',
@@ -237,3 +239,14 @@ DIALOG_GROUP = "dialogs"
 ENTER_TO_START = "PRESS ENTER TO START"
 PREP_TO_LAUNCH = "PREPARING TO LAUNCH"
 WAS_GOOD_GAME = "GAME OVER"
+
+
+
+pygame.font.init()
+font = pygame.font
+pygame.font.SysFont("freesansbold.ttf", 18)
+
+FPSCLOCK = pygame.time.Clock()
+DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
+BASICFONT = pygame.font.Font('freesansbold.ttf', 18)
+BIGFONT = pygame.font.Font('freesansbold.ttf', 100)

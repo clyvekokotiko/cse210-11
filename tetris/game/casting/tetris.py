@@ -1,7 +1,4 @@
-from game.casting.actor import Actor
-
-
-class Tetromino(Actor):
+class Tetris:
     """A solid, rectangular object that can be broken."""
 
     def __init__(self, body, animation, points, debug = False):

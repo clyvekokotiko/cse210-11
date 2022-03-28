@@ -6,7 +6,7 @@ on a simulated terminal, with a textual interface.
 ---
 Make sure you have Python 3.8.0 or newer and Raylib Python CFFI 3.7 installed and running on your machine. You can install Raylib Python CFFI by opening a terminal and running the following command.
 ```
-python3 -m pip install raylib
+python3 -m pip install pygame
 ```
 After you've installed the required libraries, open a terminal and browse to the project's root folder. Start the program by running the following command.```
 
@@ -30,7 +30,7 @@ root                    (project root folder)
 ## Required Technologies
 ---
 * Python 3.8.0
-* Raylib Python CFFI 3.7
+* Pygame
 
 ## Authors
 ---

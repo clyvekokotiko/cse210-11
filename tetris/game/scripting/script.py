@@ -1,6 +1,3 @@
-from game.scripting.action import Action
-
-
 class Script:
     """A collection of actions."""
 
