@@ -1,7 +1,8 @@
 from asyncio import constants
 from constants import *
+from game.casting.complete_lines import CompleteLines
 
-class Allignment:
+class Allignment(CompleteLines):
     """
     Description Comming Soon!
     """
@@ -10,11 +11,11 @@ class Allignment:
         """
         Description Comming Soon! 
         """
-        pass
+        super().__init__()
 
     def isCompleteLine(self, board, y):
     # Return True if the line filled with boxes with no gaps.
-        for x in range(BOARDWIDTH):
+        for x in range(BOARD_WIDTH):
             if board[x][y] == BLANK:
                 return False
         return True
@@ -23,16 +24,16 @@ class Allignment:
     def removeCompleteLines(self, board):
         # Remove any completed lines on the board, move everything above them down, and return the number of complete lines.
         numLinesRemoved = 0
-        y = BOARDHEIGHT - 1 # start y at the bottom of the board
+        y = BOARD_HEIGHT - 1 # start y at the bottom of the board
         
         while y >= 0:
             if self.isCompleteLine(board, y):
                 # Remove the line and pull boxes down by one line.
                 for pullDownY in range(y, 0, -1):
-                    for x in range(BOARDWIDTH):
+                    for x in range(BOARD_WIDTH):
                         board[x][pullDownY] = board[x][pullDownY-1]
                 # Set very top line to blank.
-                for x in range(BOARDWIDTH):
+                for x in range(BOARD_WIDTH):
                     board[x][0] = BLANK
                 numLinesRemoved += 1
                             
@@ -47,12 +48,12 @@ class Allignment:
     def convertToPixelCoords(boxx, boxy):
         # Convert the given xy coordinates of the board to xy
         # coordinates of the location on the screen.
-        return (XMARGIN + (boxx * BOXSIZE)), (TOPMARGIN + (boxy * BOXSIZE))
+        return (XMARGIN + (boxx * BOX_SIZE)), (TOPMARGIN + (boxy * BOX_SIZE))
 
     def isValidPosition(self, board, piece, adjX=0, adjY=0):
         # Return True if the piece is within the board and not colliding
-        for x in range(TEMPLATEWIDTH):
-            for y in range(TEMPLATEHEIGHT):
+        for x in range(TEMPLATE_WIDTH):
+            for y in range(TEMPLATE_HEIGHT):
                 isAboveBoard = y + piece['y'] + adjY < 0
                 if isAboveBoard or SHAPES[piece['shape']][piece['rotation']][y][x] == BLANK:
                     continue
@@ -63,4 +64,4 @@ class Allignment:
         return True
     
     def isOnBoard(self, x, y):
-        return x >= 0 and x < BOARDWIDTH and y < BOARDHEIGHT
+        return x >= 0 and x < BOARD_WIDTH and y < BOARD_HEIGHT

@@ -1,16 +1,8 @@
 from constants import *
-<<<<<<< HEAD
-#from game.casting.allignment import self
-from game.casting.allignment import Allignment
-from game.casting.text import Text
-from game.scripting.draw import Draw
-from game.casting.score import Score
-=======
 from pygame.locals import *
 import random, time, pygame, sys
 
 from game.directing.scene_manager import SceneManager
->>>>>>> e26197cf606a2b52b73653aefae1cc560eca2685
 
 
 class Director:
@@ -18,12 +10,6 @@ class Director:
 
     def __init__(self):
         """
-<<<<<<< HEAD
-        self._draw = Draw()
-        self._board = Draw.getBlankBoard(self)
-        self._allignment = Allignment()
-        
-=======
         Constructs a new Director using the pygame API.
         """
         global FPS_CLOCK, DISPLAY_SURF, BASIC_FONT, BIG_FONT
@@ -34,7 +20,6 @@ class Director:
         BIG_FONT = pygame.font.Font(FONT_FILE, FONT_LARGE)
         pygame.display.set_caption(GAME_NAME)
         self._scene_manager = SceneManager()
->>>>>>> e26197cf606a2b52b73653aefae1cc560eca2685
         
     def start_game(self):
         """Starts the game. Runs the main game loop."""
@@ -51,14 +36,6 @@ class Director:
 
     def _execute_actions(self):
         # setup variables for the start of the game
-<<<<<<< HEAD
-        lastMoveDownTime = time.time()
-        lastMoveSidewaysTime = time.time()
-        lastFallTime = time.time()
-        movingDown = False # note: there is no movingUp variable
-        movingLeft = False
-        movingRight = False
-=======
         board = self.get_blank_board()
         last_move_down_time = time.time()
         last_move_sideways_time = time.time()
@@ -66,36 +43,21 @@ class Director:
         moving_down = False # note: there is no movingUp variable
         moving_left = False
         moving_right = False
->>>>>>> e26197cf606a2b52b73653aefae1cc560eca2685
         score = 0
         level, fall_freq = self.calculate_level_and_fall_freq(score)
         
-<<<<<<< HEAD
-        fallingPiece = self._draw.getNewPiece()
-        nextPiece = self._draw.getNewPiece()
-=======
         falling_piece = self.get_new_piece()
         next_piece = self.get_new_piece()
->>>>>>> e26197cf606a2b52b73653aefae1cc560eca2685
         
         while True: # main game loop
             if falling_piece == None:
                 # No falling piece in play, so start a new piece at the top
-<<<<<<< HEAD
-                fallingPiece = nextPiece
-                nextPiece = self._draw.getNewPiece()
-                lastFallTime = time.time() # reset lastFallTime
-                
-                if not self._allignment.isValidPosition(self._board, fallingPiece):
-                    return # can't fit a new piece on the self._board, so game over
-=======
                 falling_piece = next_piece
                 next_piece = self.get_new_piece()
                 last_fall_time = time.time() # reset last_fall_time
                 
                 if not self.is_valid_position(board, falling_piece):
                     return # can't fit a new piece on the board, so game over
->>>>>>> e26197cf606a2b52b73653aefae1cc560eca2685
             
             self._scene_manager._is_game_over()
             for event in pygame.event.get(): # event handling loop
@@ -117,28 +79,6 @@ class Director:
                         moving_down = False
                 elif event.type == KEYDOWN:
                     # moving the block sideways
-<<<<<<< HEAD
-                    if (event.key == K_LEFT or event.key == K_a) and self._allignment.isValidPosition(self._board, fallingPiece, adjX=-1):
-                        fallingPiece['x'] -= 1
-                        movingLeft = True
-                        movingRight = False
-                        lastMoveSidewaysTime = time.time()
-                    elif (event.key == K_RIGHT or event.key == K_d) and self._allignment.isValidPosition(self._board, fallingPiece, adjX=1):
-                        fallingPiece['x'] += 1
-                        movingRight = True
-                        movingLeft = False
-                        lastMoveSidewaysTime = time.time()
-                    
-                    # rotating the block (if there is room to rotate)
-                    elif (event.key == K_UP or event.key == K_w):
-                        fallingPiece['rotation'] = (fallingPiece['rotation'] + 1) % len(SHAPES[fallingPiece['shape']])
-                        if not self._allignment.isValidPosition(self._board, fallingPiece):
-                            fallingPiece['rotation'] = (fallingPiece['rotation'] - 1) % len(SHAPES[fallingPiece['shape']])
-                    elif (event.key == K_q): # rotate the other direction
-                        fallingPiece['rotation'] = (fallingPiece['rotation'] - 1) % len(SHAPES[fallingPiece['shape']])
-                        if not self._allignment.isValidPosition(self._board, fallingPiece):
-                            fallingPiece['rotation'] = (fallingPiece['rotation'] + 1) % len(SHAPES[fallingPiece['shape']])
-=======
                     if (event.key == K_LEFT or event.key == K_a) and self.is_valid_position(board, falling_piece, adjX=-1):
                         falling_piece['x'] -= 1
                         moving_left = True
@@ -159,25 +99,11 @@ class Director:
                         falling_piece['rotation'] = (falling_piece['rotation'] - 1) % len(SHAPES[falling_piece['shape']])
                         if not self.is_valid_position(board, falling_piece):
                             falling_piece['rotation'] = (falling_piece['rotation'] + 1) % len(SHAPES[falling_piece['shape']])
->>>>>>> e26197cf606a2b52b73653aefae1cc560eca2685
                     
                     # making the block fall faster with the down key
                     elif (event.key == K_DOWN or event.key == K_s):
                         moving_down = True
                         
-<<<<<<< HEAD
-                        if self._allignment.isValidPosition(self._board, fallingPiece, adjY=1):
-                            fallingPiece['y'] += 1
-                        lastMoveDownTime = time.time()
-                    
-                    # move the current block all the way down
-                    elif event.key == K_SPACE:
-                        movingDown = False
-                        movingLeft = False
-                        movingRight = False
-                        for i in range(1, self._BOARDHEIGHT):
-                            if not self._allignment.isValidPosition(self._board, fallingPiece, adjY=i):
-=======
                         if self.is_valid_position(board, falling_piece, adjY=1):
                             falling_piece['y'] += 1
                         last_move_down_time = time.time()
@@ -189,36 +115,10 @@ class Director:
                         moving_right = False
                         for i in range(1, BOARD_HEIGHT):
                             if not self.is_valid_position(board, falling_piece, adjY=i):
->>>>>>> e26197cf606a2b52b73653aefae1cc560eca2685
                                 break
                         falling_piece['y'] += i - 1
             
             # handle moving the block because of user input
-<<<<<<< HEAD
-            if (movingLeft or movingRight) and time.time() - lastMoveSidewaysTime > MOVESIDEWAYSFREQ:
-                if movingLeft and self._allignment.isValidPosition(self._board, fallingPiece, adjX=-1):
-                    fallingPiece['x'] -= 1
-                elif movingRight and self._allignment.isValidPosition(self._board, fallingPiece, adjX=1):
-                    fallingPiece['x'] += 1
-                lastMoveSidewaysTime = time.time()
-            
-            if movingDown and time.time() - lastMoveDownTime > MOVEDOWNFREQ and self._allignment.isValidPosition(self._board, fallingPiece, adjY=1):
-                fallingPiece['y'] += 1
-                lastMoveDownTime = time.time()
-            
-            # let the piece fall if it is time to fall
-            
-            
-            if time.time() - lastFallTime > fallFreq:
-                # see if the piece has landed
-                if not self._allignment.isValidPosition(self._board, fallingPiece, adjY=1):
-                    # falling piece has landed, set it on the self._board
-                    self._draw.addToBoard(self._board, fallingPiece)
-                    score += self._allignment.removeCompleteLines(self._board)
-                    level, fallFreq = Score.calculateLevelAndFallFreq(score)
-                    
-                    fallingPiece = None
-=======
             if (moving_left or moving_right) and time.time() - last_move_sideways_time > MOVE_SIDE_WAYS_FREQ:
                 if moving_left and self.is_valid_position(board, falling_piece, adjX=-1):
                     falling_piece['x'] -= 1
@@ -239,31 +139,19 @@ class Director:
                     score += self.remove_completed_lines(board)
                     level, fall_freq = self.calculate_level_and_fall_freq(score)
                     falling_piece = None
->>>>>>> e26197cf606a2b52b73653aefae1cc560eca2685
                 else:
                     # piece did not land, just move the block down
                     falling_piece['y'] += 1
                     last_fall_time = time.time()
             
-<<<<<<< HEAD
-            # drawing everything on the screen 
-            DISPLAYSURF.fill(BGCOLOR)
-            self._draw.drawBoard(self._board)
-            self._draw.drawStatus(score, level)
-            self._draw.drawNextPiece(nextPiece)
-            
-            if fallingPiece != None:
-                self._draw.drawPiece(fallingPiece)
-=======
             # drawing everything on the screen
             DISPLAY_SURF.fill(BACK_GROUND_COLOR)
-            self.draw_tetromino_game_board(board)
+            self.draw_tetris_game_board(board)
             self.draw_game_board_stats(score, level)
-            self.draw_next_tetromino_piece(next_piece)
+            self.draw_next_tetris_piece(next_piece)
             
             if falling_piece != None:
-                self.draw_tetromino_piece(falling_piece)
->>>>>>> e26197cf606a2b52b73653aefae1cc560eca2685
+                self.draw_tetris_piece(falling_piece)
             
             pygame.display.update()
             FPS_CLOCK.tick(FPS)  
@@ -353,7 +241,7 @@ class Director:
 
 
     def draw_single_box(self, boxx, boxy, color, pixelx=None, pixely=None):
-        # draw a single box (each tetromino piece has four boxes) at xy coordinates on the board. Or, if pixelx & pixely
+        # draw a single box (each tetris piece has four boxes) at xy coordinates on the board. Or, if pixelx & pixely
         # are specified, draw to the pixel coordinates stored in pixelx & pixely (this is used for the "Next" piece).
         if color == BLANK:
             return
@@ -368,7 +256,7 @@ class Director:
         return (MARGIN_WIDTH + (boxx * BOX_SIZE)), (TOP_MARGIN + (boxy * BOX_SIZE))
 
 
-    def draw_tetromino_game_board(self, board):
+    def draw_tetris_game_board(self, board):
         # draw the border around the board
         pygame.draw.rect(DISPLAY_SURF, BORDER_COLOR, (MARGIN_WIDTH - 3, TOP_MARGIN - 7, (BOARD_WIDTH * BOX_SIZE) + 8, (BOARD_HEIGHT * BOX_SIZE) + 8), 5)
         
@@ -401,18 +289,18 @@ class Director:
         DISPLAY_SURF.blit(level_format, level_rect)
 
 
-    def draw_next_tetromino_piece(self, piece):
+    def draw_next_tetris_piece(self, piece):
         # draw the "next" text
-        next_tetromino_color = BASIC_FONT.render('Next Shape:', True, TEXT_COLOR)
-        next_tetromino_shape = next_tetromino_color.get_rect()
-        next_tetromino_shape.topleft = (WINDOW_WIDTH - 120, 80)
-        DISPLAY_SURF.blit(next_tetromino_color, next_tetromino_shape)
+        next_tetris_color = BASIC_FONT.render('Next Shape:', True, TEXT_COLOR)
+        next_tetris_shape = next_tetris_color.get_rect()
+        next_tetris_shape.topleft = (WINDOW_WIDTH - 120, 80)
+        DISPLAY_SURF.blit(next_tetris_color, next_tetris_shape)
         # draw the "next" piece
-        self.draw_tetromino_piece(piece, pixelx=WINDOW_WIDTH - 120, pixely=100)
+        self.draw_tetris_piece(piece, pixelx=WINDOW_WIDTH - 120, pixely=100)
     
 
-    def draw_tetromino_piece(self, piece, pixelx=None, pixely=None):
-        tetromino_shape_to_draw = SHAPES[piece['shape']][piece['rotation']]
+    def draw_tetris_piece(self, piece, pixelx=None, pixely=None):
+        tetris_shape_to_draw = SHAPES[piece['shape']][piece['rotation']]
         
         if pixelx == None and pixely == None:
             # if pixelx & pixely hasn't been specified, use the location stored in the piece data structure
@@ -421,5 +309,5 @@ class Director:
         # draw each of the blocks that make up the piece
         for x in range(TEMPLATE_WIDTH):
             for y in range(TEMPLATE_HEIGHT):
-                if tetromino_shape_to_draw[y][x] != BLANK:
+                if tetris_shape_to_draw[y][x] != BLANK:
                     self.draw_single_box(None, None, piece['color'], pixelx + (x * BOX_SIZE), pixely + (y * BOX_SIZE))

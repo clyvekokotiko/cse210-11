@@ -3,10 +3,10 @@
 # -------------------------------------------------------------------------------------------------- 
 
 # GAME
-GAME_NAME = "Tetromino"
+GAME_NAME = "Tetris"
 
 # DIALOG
-PRESS_KEY_TO_START = "PRESS A KEY TO START"
+PRESS_KEY_TO_START = "PRESS ANY KEY TO START"
 PREP_TO_LAUNCH = "PREPARING TO LAUNCH"
 MSG_HOW_TO_PAUSED_GAME = "Press p to pause game"
 GAME_PAUSED = "PAUSED"
@@ -118,12 +118,12 @@ LEVEL_FORMAT = "LEVEL: {}"
 LIVES_FORMAT = "LIVES: {}"
 SCORE_FORMAT = "SCORE: {}"
 
-# TETROMINO SIZE
+# TETRIS SIZE
 TEMPLATE_WIDTH = 5
 TEMPLATE_HEIGHT = 5
 
-# TETROMINO - GEOMETRIC SHAPES (composed of four squares, connected orthogonally.)
-S_SHAPE_TETROMINO = [['.....',
+# TETRIS - GEOMETRIC SHAPES (composed of four squares, connected orthogonally.)
+S_SHAPE_TETRIS = [['.....',
                      '.....',
                      '..OO.',
                      '.OO..',
@@ -135,7 +135,7 @@ S_SHAPE_TETROMINO = [['.....',
                      '.....']]
 
 
-Z_SHAPE_TETROMINO = [['.....',
+Z_SHAPE_TETRIS = [['.....',
                      '.....',
                      '.OO..',
                      '..OO.',
@@ -147,7 +147,7 @@ Z_SHAPE_TETROMINO = [['.....',
                      '.....']]
 
 
-I_SHAPE_TETROMINO = [['..O..',
+I_SHAPE_TETRIS = [['..O..',
                      '..O..',
                      '..O..',
                      '..O..',
@@ -159,14 +159,14 @@ I_SHAPE_TETROMINO = [['..O..',
                      '.....']]
 
 
-O_SHAPE_TETROMINO = [['.....',
+O_SHAPE_TETRIS = [['.....',
                      '.....',
                      '.OO..',
                      '.OO..',
                      '.....']]
 
 
-J_SHAPE_TETROMINO = [['.....',
+J_SHAPE_TETRIS = [['.....',
                      '.O...',
                      '.OOO.',
                      '.....',
@@ -188,7 +188,7 @@ J_SHAPE_TETROMINO = [['.....',
                      '.....']]
 
 
-L_SHAPE_TETROMINO = [['.....',
+L_SHAPE_TETRIS = [['.....',
                      '...O.',
                      '.OOO.',
                      '.....',
@@ -210,7 +210,7 @@ L_SHAPE_TETROMINO = [['.....',
                      '.....']]
 
 
-T_SHAPE_TETROMINO = [['.....',
+T_SHAPE_TETRIS = [['.....',
                      '..O..',
                      '.OOO.',
                      '.....',
@@ -232,10 +232,10 @@ T_SHAPE_TETROMINO = [['.....',
                      '.....']]
 
 
-SHAPES = {'S': S_SHAPE_TETROMINO, 
-          'Z': Z_SHAPE_TETROMINO,
-          'J': J_SHAPE_TETROMINO,
-          'L': L_SHAPE_TETROMINO,
-          'I': I_SHAPE_TETROMINO,
-          'O': O_SHAPE_TETROMINO,
-          'T': T_SHAPE_TETROMINO}
+SHAPES = {'S': S_SHAPE_TETRIS, 
+          'Z': Z_SHAPE_TETRIS,
+          'J': J_SHAPE_TETRIS,
+          'L': L_SHAPE_TETRIS,
+          'I': I_SHAPE_TETRIS,
+          'O': O_SHAPE_TETRIS,
+          'T': T_SHAPE_TETRIS}
