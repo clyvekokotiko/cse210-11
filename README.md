@@ -27,6 +27,14 @@ root                    (project root folder)
 +-- README.md           (general info)
 ```
 
+## How To Play
+---
+* Any Key     => Start/ Resume game
+* Left arrow  => move left
+* Right arrow => move right
+* P           => pause game
+
+
 ## Required Technologies
 ---
 * Python 3.8.0
