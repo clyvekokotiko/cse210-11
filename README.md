@@ -1,6 +1,6 @@
 # Tetris
 Tetris is a classic game that we all used to play on our brickgames. You play this game 
-on a simulated terminal, with a textual interface.
+on a simulated terminal, with a textual interface. Tetris is a puzzle video game created by Soviet software engineer Alexey Pajitnov in 1984. It has been published by several companies for multiple platforms, most prominently during a dispute over the appropriation of the rights in the late 1980s. This game is made up of seven different shape variations.
 
 ## Getting Started
 ---
