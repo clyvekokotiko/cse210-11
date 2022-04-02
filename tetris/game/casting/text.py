@@ -1,4 +1,4 @@
-from constants import * 
+from constants import const
 import pygame
 from pygame.locals import *
 from game.services.key_board_services import KeyboadServices
@@ -19,22 +19,22 @@ class Text:
         # This function displays large text in the
         # center of the screen until a key is pressed.
         # Draw the text drop shadow
-        titleSurf, titleRect = self.makeTextObjs(text, BIGFONT, TEXTSHADOWCOLOR)
-        titleRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2))
-        DISPLAYSURF.blit(titleSurf, titleRect)
+        titleSurf, titleRect = self.makeTextObjs(text, const.BIGFONT, const.TEXTSHADOWCOLOR)
+        titleRect.center = (int(const.WINDOWWIDTH / 2), int(const.WINDOWHEIGHT / 2))
+        const.DISPLAYSURF.blit(titleSurf, titleRect)
         
         # Draw the text
-        titleSurf, titleRect = self.makeTextObjs(text, BIGFONT, TEXTCOLOR)
-        titleRect.center = (int(WINDOWWIDTH / 2) - 3, int(WINDOWHEIGHT / 2) - 3)
-        DISPLAYSURF.blit(titleSurf, titleRect)
+        titleSurf, titleRect = self.makeTextObjs(text, const.BIGFONT, const.TEXTCOLOR)
+        titleRect.center = (int(const.WINDOWWIDTH / 2) - 3, int(const.WINDOWHEIGHT / 2) - 3)
+        const.DISPLAYSURF.blit(titleSurf, titleRect)
         
         # Draw the additional "Press a key to play." text.
-        pressKeySurf, pressKeyRect = self.makeTextObjs('Press a key to play.', BASICFONT, TEXTCOLOR)
-        pressKeyRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2) + 100)
-        DISPLAYSURF.blit(pressKeySurf, pressKeyRect)
+        pressKeySurf, pressKeyRect = self.makeTextObjs('Press a key to play.', const.BASICFONT, const.TEXTCOLOR)
+        pressKeyRect.center = (int(const.WINDOWWIDTH / 2), int(const.WINDOWHEIGHT / 2) + 100)
+        const.DISPLAYSURF.blit(pressKeySurf, pressKeyRect)
         
         while KeyboadServices.checkForKeyPress() == None:
             pygame.display.update()
-            FPSCLOCK.tick()
+            const.FPSCLOCK.tick()
     
     
