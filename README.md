@@ -24,6 +24,7 @@ root                    (project root folder)
   +-- assets            (specific game classes)
   +-- game              (specific game classes)
   +-- __main__.py       (entry point for program)
+  +-- constants.py      (constant variables for program)
 +-- README.md           (general info)
 ```
 
