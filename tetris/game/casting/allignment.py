@@ -4,17 +4,19 @@ from game.casting.complete_lines import CompleteLines
 
 class Allignment(CompleteLines):
     """
-    Description Comming Soon!
+    This class is for checking complete lines in the game and eliminating the blocks that are full
     """
     
     def __init__(self):
         """
-        Description Comming Soon! 
+        Instantiating and taking from the parent class 
         """
         super().__init__()
 
     def isCompleteLine(self, board, y):
-    # Return True if the line filled with boxes with no gaps.
+        """
+        Return True if the line filled with boxes with no gaps.
+        """
         for x in range(BOARD_WIDTH):
             if board[x][y] == BLANK:
                 return False
@@ -22,7 +24,9 @@ class Allignment(CompleteLines):
 
 
     def removeCompleteLines(self, board):
-        # Remove any completed lines on the board, move everything above them down, and return the number of complete lines.
+        """
+        Remove any completed lines on the board, move everything above them down, and return the number of complete lines.
+        """  
         numLinesRemoved = 0
         y = BOARD_HEIGHT - 1 # start y at the bottom of the board
         
@@ -46,12 +50,16 @@ class Allignment(CompleteLines):
 
 
     def convertToPixelCoords(boxx, boxy):
-        # Convert the given xy coordinates of the board to xy
-        # coordinates of the location on the screen.
+        """
+        Convert the given xy coordinates of the board to xy
+        coordinates of the location on the screen.
+        """
         return (XMARGIN + (boxx * BOX_SIZE)), (TOPMARGIN + (boxy * BOX_SIZE))
 
     def isValidPosition(self, board, piece, adjX=0, adjY=0):
-        # Return True if the piece is within the board and not colliding
+        """
+        Return True if the piece is within the board and not colliding
+        """
         for x in range(TEMPLATE_WIDTH):
             for y in range(TEMPLATE_HEIGHT):
                 isAboveBoard = y + piece['y'] + adjY < 0

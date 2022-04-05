@@ -1,12 +1,12 @@
 import pygame, random
 from pygame.locals import *
 from constants import *
-
 from game.casting.allignment import Allignment
 
 
 class Draw:
     """
+    This class is for drawing the objects 
     """
     def __init__(self):
         pass 

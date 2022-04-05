@@ -35,7 +35,9 @@ class Director:
             self._scene_manager.show_text_screen(WAS_GOOD_GAME)
 
     def _execute_actions(self):
-        # setup variables for the start of the game
+        """
+        setup variables for the start of the game
+        """
         board = self.get_blank_board()
         last_move_down_time = time.time()
         last_move_sideways_time = time.time()
@@ -157,15 +159,20 @@ class Director:
             FPS_CLOCK.tick(FPS)  
 
     def calculate_level_and_fall_freq(self, score):
-        # Based on the score, return the level the player is on and
-        # how many seconds pass until a falling piece falls one space.
+        """
+        Based on the score, return the level the player is on and
+        how many seconds pass until a falling piece falls one space.
+        """
+        
         level = int(score / 10) + 1
         fall_freq = 0.27 - (level * 0.02)
         return level, fall_freq
 
 
     def get_new_piece(self):
-        # return a random new piece in a random rotation and color
+        """
+        return a random new piece in a random rotation and color
+        """
         shape = random.choice(list(SHAPES.keys()))
         newPiece = {'shape': shape, 
                     'rotation': random.randint(0, len(SHAPES[shape]) - 1),
@@ -176,7 +183,9 @@ class Director:
 
 
     def add_to_board(self, board, piece):
-        # fill in the board based on piece's location, shape, and rotation
+        """
+        fill in the board based on piece's location, shape, and rotation
+        """
         for x in range(TEMPLATE_WIDTH):
             for y in range(TEMPLATE_HEIGHT):
                 if SHAPES[piece['shape']][piece['rotation']][y][x] != BLANK:
@@ -184,7 +193,9 @@ class Director:
 
 
     def get_blank_board(self):
-        # create and return a new blank board data structure
+        """
+        create and return a new blank board data structure
+        """
         board = []
         for i in range(BOARD_WIDTH):
             board.append([BLANK] * BOARD_HEIGHT)
@@ -192,7 +203,9 @@ class Director:
 
 
     def is_valid_position(self, board, piece, adjX=0, adjY=0):
-        # Return True if the piece is within the board and not colliding
+        """
+        Return True if the piece is within the board and not colliding
+        """
         for x in range(TEMPLATE_WIDTH):
             for y in range(TEMPLATE_HEIGHT):
                 is_above_board = y + piece['y'] + adjY < 0
@@ -210,7 +223,9 @@ class Director:
     
 
     def remove_completed_lines(self, board):
-        # Remove any completed lines on the board, move everything above them down, and return the number of complete lines.
+        """
+        Remove any completed lines on the board, move everything above them down, and return the number of complete lines.
+        """
         num_lines_removed = 0
         y = BOARD_HEIGHT - 1 # start y at the bottom of the board
         
@@ -233,7 +248,9 @@ class Director:
 
 
     def is_line_completed(self, board, y):
-        # Return True if the line filled with boxes with no gaps.
+        """
+        Return True if the line filled with boxes with no gaps.
+        """
         for x in range(BOARD_WIDTH):
             if board[x][y] == BLANK:
                 return False
@@ -241,8 +258,10 @@ class Director:
 
 
     def draw_single_box(self, boxx, boxy, color, pixelx=None, pixely=None):
-        # draw a single box (each tetris piece has four boxes) at xy coordinates on the board. Or, if pixelx & pixely
-        # are specified, draw to the pixel coordinates stored in pixelx & pixely (this is used for the "Next" piece).
+        """
+        draw a single box (each tetris piece has four boxes) at xy coordinates on the board. Or, if pixelx & pixely
+        are specified, draw to the pixel coordinates stored in pixelx & pixely (this is used for the "Next" piece).
+        """
         if color == BLANK:
             return
         if pixelx == None and pixely == None:
@@ -252,12 +271,16 @@ class Director:
 
 
     def convert_to_pixel_coordinates(self, boxx, boxy):
-        # Convert the given xy coordinates of the board to xy coordinates of the location on the screen.
+        """
+        Convert the given xy coordinates of the board to xy coordinates of the location on the screen.
+        """
         return (MARGIN_WIDTH + (boxx * BOX_SIZE)), (TOP_MARGIN + (boxy * BOX_SIZE))
 
 
     def draw_tetris_game_board(self, board):
-        # draw the border around the board
+        """
+        draw the border around the board
+        """
         pygame.draw.rect(DISPLAY_SURF, BORDER_COLOR, (MARGIN_WIDTH - 3, TOP_MARGIN - 7, (BOARD_WIDTH * BOX_SIZE) + 8, (BOARD_HEIGHT * BOX_SIZE) + 8), 5)
         
         # fill the background of the board
@@ -270,7 +293,9 @@ class Director:
 
 
     def draw_game_board_stats(self, score, level):
-        # draw the score text
+        """
+        draw the score text
+        """
         score_format = BASIC_FONT.render('Score: %s' % score, True, TEXT_COLOR)
         score_rect = score_format.get_rect()
         score_rect.topleft = (WINDOW_WIDTH - 150, 20)
@@ -290,7 +315,9 @@ class Director:
 
 
     def draw_next_tetris_piece(self, piece):
-        # draw the "next" text
+        """
+        draw the "next" text
+        """
         next_tetris_color = BASIC_FONT.render('Next Shape:', True, TEXT_COLOR)
         next_tetris_shape = next_tetris_color.get_rect()
         next_tetris_shape.topleft = (WINDOW_WIDTH - 120, 80)

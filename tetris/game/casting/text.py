@@ -16,9 +16,11 @@ class Text:
         return surf, surf.get_rect()
 
     def showTextScreen(self, text):
-        # This function displays large text in the
-        # center of the screen until a key is pressed.
-        # Draw the text drop shadow
+        """
+        This function displays large text in the
+        center of the screen until a key is pressed.
+        Draw the text drop shadow
+        """
         titleSurf, titleRect = self.makeTextObjs(text, const.BIGFONT, const.TEXTSHADOWCOLOR)
         titleRect.center = (int(const.WINDOWWIDTH / 2), int(const.WINDOWHEIGHT / 2))
         const.DISPLAYSURF.blit(titleSurf, titleRect)
